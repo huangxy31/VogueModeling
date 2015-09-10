@@ -42,6 +42,22 @@ namespace VagueRegionModelling.Widgets
 
         public DataInformation GetDataInfo()
         {
+            //通过textbox设置datainfo
+            string file = textBoxOutput.Text;
+            string filePath, fileName;
+            int index = 0;
+            index = file.LastIndexOf("\\");
+            //路径不正确
+            if (index <= 0)
+            {
+                m_dataInfo.SetOutputFilePath(string.Empty);
+                //m_dataInfo.SetOutputFileName(string.Empty);
+                return m_dataInfo;
+            }
+            filePath = file.Substring(0, index);
+            fileName = file.Substring(index + 1, file.Length - index - 1);
+            m_dataInfo.SetOutputFilePath(filePath);
+            m_dataInfo.SetOutputFileName(fileName);
             return m_dataInfo;
         }
 
@@ -50,7 +66,7 @@ namespace VagueRegionModelling.Widgets
         /// 根据图层类型给comboBox中添加图层名
         /// </summary>
         /// <param name="comboBoxInput"></param>
-        public void AddLayerNames()
+        private void AddLayerNames()
         {
             //清空
             if (comboBoxInput.Items.Count != 0)
@@ -75,25 +91,25 @@ namespace VagueRegionModelling.Widgets
         private void comboBoxInput_SelectionChangeCommitted(object sender, EventArgs e)
         {
             string layerName = comboBoxInput.SelectedItem.ToString();
-            m_dataInfo.SetLayerName(layerName);
+            m_dataInfo.SetInputLayerName(layerName);
             IDataset dataset = (IDataset)m_dataInfo.GetInputLayer();
             string filePath = dataset.Workspace.PathName;
-            m_dataInfo.SetFilePath(filePath);
+            m_dataInfo.SetOutputFilePath(filePath);
  //           string fileName = "convexhull.shp";
-            textBoxOutput.Text = m_dataInfo.GetFilePath() + "\\" + m_dataInfo.GetFileName();
+            textBoxOutput.Text = m_dataInfo.GetOutputFilePath() + "\\" + m_dataInfo.GetOutputFileName();
         }
 
         private void buttonSavePath_Click(object sender, EventArgs e)
         {
             SaveFileDialog();
-            if (m_dataInfo.GetFilePath() != string.Empty)
-                textBoxOutput.Text = m_dataInfo.GetFilePath() + "\\" + m_dataInfo.GetFileName();
+            if (m_dataInfo.GetOutputFilePath() != string.Empty)
+                textBoxOutput.Text = m_dataInfo.GetOutputFilePath() + "\\" + m_dataInfo.GetOutputFileName();
         }
 
         /// <summary>
         /// 选择shp存放目录，并返回工作空间及文件名
         /// </summary>
-        public void SaveFileDialog()
+        private void SaveFileDialog()
         {
             SaveFileDialog saveFileDialog;
             saveFileDialog = new SaveFileDialog();
@@ -109,8 +125,8 @@ namespace VagueRegionModelling.Widgets
                 filePath = file.Substring(0, index);
                 fileName = file.Substring(index + 1, file.Length - index - 1);
 
-                m_dataInfo.SetFilePath(filePath);
-                m_dataInfo.SetFileName(fileName);
+                m_dataInfo.SetOutputFilePath(filePath);
+                m_dataInfo.SetOutputFileName(fileName);
             }
         }
     }

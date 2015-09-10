@@ -24,5 +24,21 @@ namespace VagueRegionModelling.Widgets
                 e.Handled = true;
             }
         }
+
+        /// <summary>
+        /// 重写空间的Text属性
+        /// </summary>
+        public override string Text
+        {
+            get
+            {
+                return TextBox.Text;
+            }
+            set
+            {
+                TextBox.Text = value;
+                base.Text = value;
+            }
+        }
     }
 }
