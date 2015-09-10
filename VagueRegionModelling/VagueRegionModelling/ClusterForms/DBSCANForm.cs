@@ -34,6 +34,7 @@ namespace VagueRegionModelling.ClusterForms
             m_dataInfo = new DataInformation(mapControl, fileName);
             inputAndOutput.SetValues(mapControl, m_dataInfo);
           //  inputAndOutput.AddLayerNames();
+            //test test
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
